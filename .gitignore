@@ -1,0 +1,8 @@
+*.swp
+*.so
+*.a
+*.o
+*.html
+_temp
+inst/include
+inst/lib
