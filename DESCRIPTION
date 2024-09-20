@@ -20,3 +20,4 @@ Suggests:
 URL: https://github.com/libscran/Rlibigraph
 BugReports: https://github.com/libscran/Rlibigraph/issues
 Encoding: UTF-8
+RoxygenNote: 7.3.2
