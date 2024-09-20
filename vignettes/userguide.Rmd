@@ -1,0 +1,53 @@
+---
+title: Packaging the igraph C library
+author:
+- name: Aaron Lun
+  email: infinite.monkeys.with.keyboards@gmail.com
+date: "Revised: September 20, 2024"
+output:
+  BiocStyle::html_document
+package: biocmake
+vignette: >
+  %\VignetteIndexEntry{Using the igraph C library}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, results="hide", message=FALSE}
+require(knitr)
+opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+
+library(BiocStyle)
+self <- Biocpkg("Rlibigraph")
+```
+
+# Overview
+
+`r self` builds the **igraph** static library for use in R/Bioconductor packages.
+This is primarily intended for R packages that wrap other C/C++ libraries that depend on the **igraph** C library
+and cannot easily be modified to use the usual `r CRANpkg("igraph")` R package.
+By vendoring in the source code, we also reduce our susceptibility to out-of-release-schedule changes in results due to `r CRANpkg("igraph")` updates.
+This also allows developers to access functionality that might yet not be available from the R bindings.
+
+# Quick start
+
+Downstream package developers can use `r self` by adding:
+
+```
+LinkingTo: Rlibigraph
+```
+
+to their package `DESCRIPTION`, and setting:
+
+```bash
+RIGRAPH_LIBS=$(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript" -e 'Rlibigraph::pkgconfig()'")
+PKG_LIBS=$(RIGRAPH_LIBS)
+```
+
+in their `src/Makevars`.
+
+# Session information {-}
+
+```{r}
+sessionInfo()
+```

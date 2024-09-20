@@ -3,7 +3,7 @@
 Builds the **igraph** static library for use in R/Bioconductor packages.
 This is primarily intended for R packages that wrap other C/C++ libraries that depend on the **igraph** C library
 and cannot easily be modified to use the usual R bindings to **igraph**.
-By vendoring in the source code, we also reduce our susceptibility to out-of-release-schedule changes in results due to **igraph** updates.
+By vendoring in the source code, we reduce our susceptibility to out-of-release-schedule changes in results due to **igraph** updates.
 It also allows developers to access functionality that might yet not be available from the R bindings.
 
 For downstream package developers, use of **Rlibigraph** is as simple as adding:

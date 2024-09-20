@@ -17,6 +17,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
+VignetteBuilder: knitr
 URL: https://github.com/libscran/Rlibigraph
 BugReports: https://github.com/libscran/Rlibigraph/issues
 Encoding: UTF-8
