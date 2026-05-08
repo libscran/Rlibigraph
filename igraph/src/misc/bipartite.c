@@ -210,7 +210,7 @@ static igraph_error_t igraph_i_bipartite_projection(const igraph_t *graph,
     for (igraph_int_t i = 0; i < no_of_nodes; i++) {
         if (VECTOR(*types)[i] == which) {
             VECTOR(vertex_index)[i] = remaining_nodes++;
-            igraph_vector_int_push_back(&vertex_perm, i);
+            igraph_vector_int_push_back(&vertex_perm, i); /* reserved */
         }
     }
 
@@ -562,12 +562,14 @@ igraph_error_t igraph_create_bipartite(igraph_t *graph, const igraph_vector_bool
     igraph_int_t i;
 
     if (no_of_edges % 2 != 0) {
-        IGRAPH_ERROR("Invalid (odd) edges vector", IGRAPH_EINVAL);
+        IGRAPH_ERROR("Invalid (odd length) edges vector.", IGRAPH_EINVAL);
     }
     no_of_edges /= 2;
 
     if (! igraph_vector_int_isininterval(edges, 0, no_of_nodes-1)) {
-        IGRAPH_ERROR("Invalid (negative or too large) vertex ID", IGRAPH_EINVVID);
+        IGRAPH_ERRORF("Invalid vertex ID for a graph with %" IGRAPH_PRId " vertices.",
+                     IGRAPH_EINVVID,
+                     no_of_nodes);
     }
 
     /* Check bipartiteness */
@@ -577,7 +579,7 @@ igraph_error_t igraph_create_bipartite(igraph_t *graph, const igraph_vector_bool
         igraph_bool_t t1 = VECTOR(*types)[from];
         igraph_bool_t t2 = VECTOR(*types)[to];
         if ( (t1 && t2) || (!t1 && !t2) ) {
-            IGRAPH_ERROR("Invalid edges, not a bipartite graph", IGRAPH_EINVAL);
+            IGRAPH_ERROR("Invalid edges, not a bipartite graph.", IGRAPH_EINVAL);
         }
     }
 
@@ -1111,11 +1113,11 @@ static igraph_error_t bipartite_iea_game(
         /* flip unconditionally for IGRAPH_IN,
          * or with probability 0.5 for IGRAPH_ALL */
         if (mode == IGRAPH_IN || (mode == IGRAPH_ALL && RNG_BOOL())) {
-            igraph_vector_int_push_back(&edges, to);
-            igraph_vector_int_push_back(&edges, from);
+            igraph_vector_int_push_back(&edges, to); /* reserved */
+            igraph_vector_int_push_back(&edges, from); /* reserved */
         } else {
-            igraph_vector_int_push_back(&edges, from);
-            igraph_vector_int_push_back(&edges, to);
+            igraph_vector_int_push_back(&edges, from); /* reserved */
+            igraph_vector_int_push_back(&edges, to); /* reserved */
         }
 
     }
